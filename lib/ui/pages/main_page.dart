@@ -35,7 +35,7 @@ class _MainPageState extends State<MainPage> {
           ),
         ],
       ),
-      body: const Center(child: Text("Brak surowców pasujących do wyszukiwanej frazy.")),
+      body: const Center(child: Text("Todo.")),
     );
   }
 }
