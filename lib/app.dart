@@ -15,9 +15,7 @@ class PalCal extends StatelessWidget {
         title: 'CalPal',
         debugShowCheckedModeBanner: false,
         theme: yaru.theme,
-
         // darkTheme: yaru.darkTheme,
-        color: Colors.green,
         home: Container(
           decoration: BoxDecoration(
             color: ThemeData.light().scaffoldBackgroundColor,

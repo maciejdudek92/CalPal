@@ -14,7 +14,7 @@ void main() async {
     backgroundColor: Colors.transparent,
     // titleBarStyle: TitleBarStyle.hidden,
     center: true,
-    alwaysOnTop: true,
+    alwaysOnTop: false,
   );
 
   runApp(const PalCal());

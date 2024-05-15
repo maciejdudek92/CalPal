@@ -1,6 +1,7 @@
 import 'package:decimal/decimal.dart';
 
 enum CardboardBoxType {
+  clamshell,
   glued,
   flat;
 }
