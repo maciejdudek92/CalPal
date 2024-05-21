@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:palcal/app.dart';
+import 'package:palcal/app/app.dart';
+import 'package:palcal/app/locator.dart';
 import 'package:window_manager/window_manager.dart';
 import 'package:yaru/yaru.dart';
 
 void main() async {
+  setupLocator();
+
   await YaruWindow.ensureInitialized();
   await YaruWindowTitleBar.ensureInitialized();
   WidgetsFlutterBinding.ensureInitialized();

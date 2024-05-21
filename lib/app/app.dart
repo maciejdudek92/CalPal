@@ -1,8 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:palcal/ui/pages/main_page.dart';
+import 'package:palcal/app/ui/views/main_page.dart';
 import 'package:yaru/yaru.dart';
 
 class PalCal extends StatelessWidget {
