@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:palcal/app/core/models/estimation_option_model.dart';
 import 'package:palcal/app/core/view_models/estimator_view_model.dart';
 import 'package:palcal/app/ui/shared/base_view.dart';
 import 'package:yaru/yaru.dart';
@@ -37,105 +38,261 @@ class MainPage extends BaseView<EstimatorViewModel> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        child: const Icon(YaruIcons.plus),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-        onPressed: () {},
+        onPressed: () => showDialog(
+          barrierDismissible: true,
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              actions: [
+                OutlinedButton(
+                  onPressed: () => Navigator.maybePop(context),
+                  child: Text(
+                    'Evil Force-Close',
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.error,
+                    ),
+                  ),
+                ),
+              ],
+              titlePadding: EdgeInsets.zero,
+              title: YaruDialogTitleBar(
+                leading: const Center(
+                  child: SizedBox.square(
+                    dimension: 25,
+                    child: YaruCircularProgressIndicator(
+                      strokeWidth: 3,
+                    ),
+                  ),
+                ),
+                title: const Text('The Title'),
+                isClosable: true,
+              ),
+              content: SizedBox(
+                height: 100,
+                child: YaruBanner.tile(
+                  surfaceTintColor: Colors.pink,
+                  title: Text(
+                    'You cannot close me',
+                  ),
+                  subtitle: Text(
+                    'No way',
+                  ),
+                  icon: Text(
+                    '💅',
+                    style: const TextStyle(fontSize: 30),
+                  ),
+                ),
+              ),
+            );
+          },
+        ),
+        child: const Icon(YaruIcons.plus),
       ),
       body: Padding(
         padding: const EdgeInsets.all(kYaruPagePadding),
         child: YaruExpansionPanel(
-          children: [
-            SizedBox(
-              height: 350,
-              child: SelectionArea(
-                selectionControls: EmptyTextSelectionControls(),
-                child: ScrollableTableView(
-                  headers: [
-                    "Numer projektu",
-                    "Sztuk/karton",
-                    "Sztuk/warstwa",
-                    "Sztuk/paleta",
-                    "Waga poj. kartonika",
-                  ].map((label) {
-                    return TableViewHeader(
-                      width: 110,
-                      label: label,
-                      // labelFontSize: 5,
-                      textStyle: TextStyle(fontSize: 10),
-                    );
-                  }).toList(),
-                  rows: [
-                    ["1234", "540", "5400", "64800", "ok. 9,15g"],
-                    ["1234", "540", "5400", "64800", "ok. 9,15g"],
-                  ].map((record) {
-                    return TableViewRow(
-                      height: 60,
-                      cells: record.map((value) {
-                        return TableViewCell(
-                          child: Text(
-                            value,
-                            style: TextStyle(fontSize: 10),
-                          ),
-                        );
-                      }).toList(),
-                    );
-                  }).toList(),
-                ),
-              ),
-            ),
-            Container(),
-            Container(),
+          headers: [
+            Text(model.clamshellOptions.isEmpty ? 'Klejone' : 'Klejone (${model.clamshellOptions.length})'),
+            Text(model.flatOptions.isEmpty ? 'Na płasko' : 'Na płasko ${model.flatOptions.length}'),
+            Text(model.clamshellOptions.isEmpty ? "Clamshell'e" : "Clamshell'e ${model.clamshellOptions.length}"),
           ],
-          headers: const [
-            Text("Klejone"),
-            Text("Na płasko"),
-            Text("Clamshell'e"),
+          children: [
+            model.gluedOptions.isEmpty
+                ? const Padding(
+                    padding: EdgeInsets.only(bottom: 35),
+                    child: Center(
+                      child: Text("Brak..."),
+                    ),
+                  )
+                : SizedBox(
+                    height: 350,
+                    child: SelectionArea(
+                      selectionControls: EmptyTextSelectionControls(),
+                      child: ScrollableTableView(
+                        headers: [
+                          "Numer projektu",
+                          "Sztuk/karton",
+                          "Sztuk/warstwa",
+                          "Sztuk/paleta",
+                          "Waga poj. kartonika",
+                          "Wysokość palety",
+                          "Waga palety",
+                        ].map((label) {
+                          return TableViewHeader(
+                            width: 110,
+                            label: label,
+                            textStyle: const TextStyle(fontSize: 10),
+                          );
+                        }).toList(),
+                        rows: model.gluedOptions.map((EstimationOption option) {
+                          return TableViewRow(height: 60, cells: [
+                            TableViewCell(
+                              child: Text(
+                                option.name,
+                                style: const TextStyle(fontSize: 10),
+                              ),
+                            ),
+                            TableViewCell(
+                              child: Text(
+                                option.boxesPerOuter.toString(),
+                                style: const TextStyle(fontSize: 10),
+                              ),
+                            ),
+                            TableViewCell(
+                              child: Text(
+                                option.boxesPerLayer.toString(),
+                                style: const TextStyle(fontSize: 10),
+                              ),
+                            ),
+                            TableViewCell(
+                              child: Text(
+                                option.boxesPerPalette.toString(),
+                                style: const TextStyle(fontSize: 10),
+                              ),
+                            ),
+                            TableViewCell(
+                              child: Text(
+                                option.cardboardBoxWeight.toString(),
+                                style: const TextStyle(fontSize: 10),
+                              ),
+                            ),
+                          ]);
+                        }).toList(),
+                      ),
+                    ),
+                  ),
+            model.flatOptions.isEmpty
+                ? const Padding(
+                    padding: EdgeInsets.only(bottom: 35),
+                    child: Center(
+                      child: Text("Brak..."),
+                    ),
+                  )
+                : SizedBox(
+                    height: 350,
+                    child: SelectionArea(
+                      selectionControls: EmptyTextSelectionControls(),
+                      child: ScrollableTableView(
+                        headers: [
+                          "Numer projektu",
+                          "Sztuk/słupek",
+                          "Ilość słupków/paleta",
+                          "Sztuk/paleta",
+                          "Waga poj. kartonika",
+                          "Wysokość palety",
+                          "Waga palety",
+                        ].map((label) {
+                          return TableViewHeader(
+                            width: 110,
+                            label: label,
+                            textStyle: const TextStyle(fontSize: 10),
+                          );
+                        }).toList(),
+                        rows: model.gluedOptions.map((EstimationOption option) {
+                          return TableViewRow(height: 60, cells: [
+                            TableViewCell(
+                              child: Text(
+                                option.name,
+                                style: const TextStyle(fontSize: 10),
+                              ),
+                            ),
+                            TableViewCell(
+                              child: Text(
+                                option.boxesPerOuter.toString(),
+                                style: const TextStyle(fontSize: 10),
+                              ),
+                            ),
+                            TableViewCell(
+                              child: Text(
+                                option.boxesPerLayer.toString(),
+                                style: const TextStyle(fontSize: 10),
+                              ),
+                            ),
+                            TableViewCell(
+                              child: Text(
+                                option.boxesPerPalette.toString(),
+                                style: const TextStyle(fontSize: 10),
+                              ),
+                            ),
+                            TableViewCell(
+                              child: Text(
+                                option.cardboardBoxWeight.toString(),
+                                style: const TextStyle(fontSize: 10),
+                              ),
+                            ),
+                          ]);
+                        }).toList(),
+                      ),
+                    ),
+                  ),
+            model.clamshellOptions.isEmpty
+                ? const Padding(
+                    padding: EdgeInsets.only(bottom: 35),
+                    child: Center(
+                      child: Text("Brak..."),
+                    ),
+                  )
+                : SizedBox(
+                    height: 350,
+                    child: SelectionArea(
+                      selectionControls: EmptyTextSelectionControls(),
+                      child: ScrollableTableView(
+                        headers: [
+                          "Numer projektu",
+                          "Sztuk/karton",
+                          "Sztuk/warstwa",
+                          "Sztuk/paleta",
+                          "Waga poj. kartonika",
+                          "Wysokość palety",
+                          "Waga palety",
+                        ].map((label) {
+                          return TableViewHeader(
+                            width: 110,
+                            label: label,
+                            textStyle: const TextStyle(fontSize: 10),
+                          );
+                        }).toList(),
+                        rows: model.gluedOptions.map((EstimationOption option) {
+                          return TableViewRow(height: 60, cells: [
+                            TableViewCell(
+                              child: Text(
+                                option.name,
+                                style: const TextStyle(fontSize: 10),
+                              ),
+                            ),
+                            TableViewCell(
+                              child: Text(
+                                option.boxesPerOuter.toString(),
+                                style: const TextStyle(fontSize: 10),
+                              ),
+                            ),
+                            TableViewCell(
+                              child: Text(
+                                option.boxesPerLayer.toString(),
+                                style: const TextStyle(fontSize: 10),
+                              ),
+                            ),
+                            TableViewCell(
+                              child: Text(
+                                option.boxesPerPalette.toString(),
+                                style: const TextStyle(fontSize: 10),
+                              ),
+                            ),
+                            TableViewCell(
+                              child: Text(
+                                option.cardboardBoxWeight.toString(),
+                                style: const TextStyle(fontSize: 10),
+                              ),
+                            ),
+                          ]);
+                        }).toList(),
+                      ),
+                    ),
+                  ),
           ],
         ),
       ),
     );
   }
 }
-
-// class MainPage extends StatefulWidget {
-//   const MainPage({super.key});
-
-//   @override
-//   _MainPageState createState() => _MainPageState();
-// }
-
-// class _MainPageState extends State<MainPage> {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       backgroundColor: Colors.transparent,
-//       appBar: YaruDialogTitleBar(
-//         heroTag: 'bar2',
-//         titleSpacing: 15,
-//         centerTitle: true,
-//         isActive: true,
-//         isClosable: false,
-//         isDraggable: true,
-//         onShowMenu: (context) {},
-//         style: YaruTitleBarStyle.normal,
-//         title: const Text("Cardboard Palletization Estimator"),
-//         actions: [
-//           Padding(
-//             padding: const EdgeInsets.only(right: 10.0),
-//             child: YaruWindowControl(
-//                 type: YaruWindowControlType.close,
-//                 onTap: () async {
-//                   exit(0);
-//                 }),
-//           ),
-//         ],
-//       ),
-//       floatingActionButton: FloatingActionButton(
-//         child: const Icon(YaruIcons.plus),
-//         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-//         onPressed: () {},
-//       ),
-//       body: const Center(child: Text("Todo.")),
-//     );
-//   }
-// }
