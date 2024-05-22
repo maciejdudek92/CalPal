@@ -14,7 +14,7 @@ abstract class BaseView<T extends ViewModel> extends StatefulWidget {
   void dispose();
   Widget build(BuildContext context, T model, Widget? child);
   final StateMixins? stateMixins;
-  const BaseView({super.key, this.stateMixins});
+  const BaseView({Key? key, this.stateMixins}) : super(key: key);
 
   @override
   // ignore: no_logic_in_create_state

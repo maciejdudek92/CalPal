@@ -45,23 +45,25 @@ class MainPage extends BaseView<EstimatorViewModel> {
       floatingActionButton: FloatingActionButton(
         backgroundColor: Theme.of(context).primaryColor,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-        onPressed: () {
-          EstimationOption option = EstimationOption(
-            name: "12345_1",
-            layers: 10,
-            height: 150,
-            outerBoxes: [],
-            flatCardboardBoxes: [],
-          );
-          model.addGluedOption(option);
-        },
-        // => showDialog(
-        //   barrierDismissible: true,
-        //   context: context,
-        //   builder: (context) {
-        //     return EstimatorFormView();
-        //   },
-        // ),
+        onPressed: ()
+            // {
+            //   EstimationOption option = EstimationOption(
+            //     name: "12345_1",
+            //     layers: 10,
+            //     height: 150,
+            //     outerBoxes: [],
+            //     flatCardboardBoxes: [],
+            //   );
+            //   model.addGluedOption(option);
+            // },
+            =>
+            showDialog(
+          barrierDismissible: true,
+          context: context,
+          builder: (context) {
+            return EstimatorFormView();
+          },
+        ),
         child: const Icon(YaruIcons.plus),
       ),
       body: Padding(

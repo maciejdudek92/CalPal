@@ -8,7 +8,7 @@ import 'package:reactive_forms/reactive_forms.dart';
 import 'package:yaru/yaru.dart';
 
 class EstimatorFormView extends BaseView<EstimatorFormViewModel> {
-  EstimatorFormView({super.key}) : super(stateMixins: StateMixins.withTicketProvider);
+  EstimatorFormView() : super(stateMixins: StateMixins.withTicketProvider);
   late TabController tabController;
 
   @override
