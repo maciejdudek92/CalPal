@@ -7,14 +7,9 @@ import 'package:palcal/app/ui/shared/base_view.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 import 'package:yaru/yaru.dart';
 
-class EstimatorFormViewState extends BaseViewState<EstimatorFormViewModel> with TickerProviderStateMixin {}
-
 class EstimatorFormView extends BaseView<EstimatorFormViewModel> {
-  EstimatorFormView({super.key});
+  EstimatorFormView({super.key}) : super(stateMixins: StateMixins.withTicketProvider);
   late TabController tabController;
-
-  @override
-  State<BaseView> createState() => EstimatorFormViewState();
 
   @override
   void initState(state, viewModel) {
