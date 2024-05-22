@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:palcal/app/core/enums/view_state.dart';
 
 abstract class ViewModel extends ChangeNotifier {
-  ViewState _viewState = ViewState.idle;
+  bool _busy = false;
+  bool get busy => _busy;
 
-  ViewState get viewState => _viewState;
-  void setState(ViewState viewState) {
-    _viewState = viewState;
+  void setBusy(bool value) {
+    _busy = value;
     notifyListeners();
   }
 }

@@ -19,7 +19,7 @@ class PalCal extends StatelessWidget {
           decoration: BoxDecoration(
             color: ThemeData.light().scaffoldBackgroundColor,
             borderRadius: BorderRadius.circular(10),
-            // border: Border.all(color: Colors.grey.shade700),
+            border: Border.all(color: Colors.grey.shade700),
           ),
           height: 650,
           child: const MainPage(),
