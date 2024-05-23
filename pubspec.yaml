@@ -43,6 +43,7 @@ dependencies:
   provider: ^6.1.2
   scrollable_table_view: ^2.0.3
   reactive_forms: ^17.0.1
+  units_dart: ^0.0.3
 
 dev_dependencies:
   flutter_test:

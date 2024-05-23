@@ -25,22 +25,29 @@ class EstimationOption {
   }
 
   int get boxesPerOuter {
-    return 0;
-    // return outerBoxes!.first.cardboardBoxes!.length;
+    return outerBoxes!.length;
+    return outerBoxes!.first.cardboardBoxes.length;
   }
 
   int get boxesPerLayer {
-    return 0;
+    return layers;
 
-    // int outersPerLayer = outerBoxes!.length ~/ layers;
-    // return outersPerLayer ~/ outerBoxes!.first.cardboardBoxes!.length;
+    int outersPerLayer = outerBoxes!.length ~/ layers;
+    return outersPerLayer ~/ outerBoxes!.first.cardboardBoxes.length;
   }
 
   double get paletteHeight {
-    return 0;
-    // int boxHeight = outerBoxes!.first.height! + 15;
-    // double paletteHeight = (boxHeight * layers) + 25;
-    // return paletteHeight;
+    // return 0;
+    int boxHeight = outerBoxes!.first.height;
+    double paletteHeight = (boxHeight * layers) + 25;
+    return paletteHeight;
+  }
+
+  double get paletteWeight {
+    // return 0;
+    double boxWeight = outerBoxes!.first.weight;
+    double paletteWeight = (boxWeight * outerBoxes!.length);
+    return paletteWeight;
   }
 
   // factory EstimationOption.fromJson(Map<String, Object?> json) => {

@@ -3,12 +3,7 @@ import 'package:palcal/app/core/models/estimation_option_model.dart';
 import 'package:palcal/app/core/view_models/view_model.dart';
 
 class EstimatorViewModel extends ViewModel {
-  final List<OuterBox> outerBoxesOptions = [
-    OuterBox(length: 385, width: 385),
-    OuterBox(length: 385, width: 285),
-    OuterBox(length: 385, width: 250),
-    OuterBox(length: 385, width: 225),
-  ];
+
 
   final List<EstimationOption> _gluedOptions = [];
   List<EstimationOption> get gluedOptions => _gluedOptions;

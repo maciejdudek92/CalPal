@@ -11,18 +11,23 @@ enum OuterBoxTypes {
 
 class OuterBox {
   final OuterBoxTypes type = OuterBoxTypes.bc;
-  int? length;
-  int? width;
-  int? height;
-  List<CardboardBox>? cardboardBoxes;
+  int length;
+  int width;
+  int height;
+  List<CardboardBox> cardboardBoxes;
 
-  OuterBox({this.length, this.width, this.height, this.cardboardBoxes});
+  OuterBox({required int length, required int width, required int height, this.cardboardBoxes = const []})
+      : length = length + 15,
+        width = width + 15,
+        height = width + 15;
 
-  Decimal get weight {
-    Decimal weight = Decimal.zero;
-    cardboardBoxes!.forEach((box) {
-      weight += box.weight;
+  int get cardboxesCount => cardboardBoxes.length;
+
+  double get weight {
+    Decimal weight = Decimal.parse('0.5');
+    cardboardBoxes.forEach((box) {
+      weight += Decimal.parse(box.weight.toString());
     });
-    return weight;
+    return weight.toDouble();
   }
 }

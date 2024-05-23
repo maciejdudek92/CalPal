@@ -8,10 +8,11 @@ class CardboardBox {
   final double surfaceArea;
   final double caliper;
   final int grammage;
+  final int foldLayers;
 
-  CardboardBox({required this.type, required this.length, required this.width, required this.surfaceArea, required this.caliper, required this.grammage});
+  CardboardBox({required this.type, required this.length, required this.width, required this.surfaceArea, required this.caliper, required this.grammage, required this.foldLayers});
 
-  get weight {
-    return Decimal.fromInt(grammage) * Decimal.parse(surfaceArea.toString()) / Decimal.fromInt(10000);
+  double get weight {
+    return ((Decimal.fromInt(grammage) * Decimal.parse(surfaceArea.toString())) / Decimal.fromInt(10000)).toDouble();
   }
 }

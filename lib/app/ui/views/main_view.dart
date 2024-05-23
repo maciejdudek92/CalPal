@@ -12,7 +12,7 @@ class MainPage extends BaseView<EstimatorViewModel> {
   const MainPage({super.key});
 
   @override
-  void initState(state, viewModel) {}
+  void initState(_, viewModel) {}
   @override
   void dispose() {}
 
@@ -134,6 +134,18 @@ class MainPage extends BaseView<EstimatorViewModel> {
                                 style: const TextStyle(fontSize: 10),
                               ),
                             ),
+                            TableViewCell(
+                              child: Text(
+                                option.paletteHeight.toString(),
+                                style: const TextStyle(fontSize: 10),
+                              ),
+                            ),
+                            TableViewCell(
+                              child: Text(
+                                option.paletteWeight.toString(),
+                                style: const TextStyle(fontSize: 10),
+                              ),
+                            ),
                           ]);
                         }).toList(),
                       ),
@@ -166,7 +178,7 @@ class MainPage extends BaseView<EstimatorViewModel> {
                             textStyle: const TextStyle(fontSize: 10),
                           );
                         }).toList(),
-                        rows: model.gluedOptions.map((EstimationOption option) {
+                        rows: model.flatOptions.map((EstimationOption option) {
                           return TableViewRow(height: 40, cells: [
                             TableViewCell(
                               child: Text(
@@ -195,6 +207,18 @@ class MainPage extends BaseView<EstimatorViewModel> {
                             TableViewCell(
                               child: Text(
                                 option.cardboardBoxWeight.toString(),
+                                style: const TextStyle(fontSize: 10),
+                              ),
+                            ),
+                            TableViewCell(
+                              child: Text(
+                                option.paletteHeight.toString(),
+                                style: const TextStyle(fontSize: 10),
+                              ),
+                            ),
+                            TableViewCell(
+                              child: Text(
+                                option.paletteWeight.toString(),
                                 style: const TextStyle(fontSize: 10),
                               ),
                             ),
@@ -259,6 +283,18 @@ class MainPage extends BaseView<EstimatorViewModel> {
                             TableViewCell(
                               child: Text(
                                 option.cardboardBoxWeight.toString(),
+                                style: const TextStyle(fontSize: 10),
+                              ),
+                            ),
+                            TableViewCell(
+                              child: Text(
+                                option.paletteHeight.toString(),
+                                style: const TextStyle(fontSize: 10),
+                              ),
+                            ),
+                            TableViewCell(
+                              child: Text(
+                                option.paletteWeight.toString(),
                                 style: const TextStyle(fontSize: 10),
                               ),
                             ),

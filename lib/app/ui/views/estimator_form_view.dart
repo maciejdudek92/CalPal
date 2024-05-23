@@ -8,12 +8,12 @@ import 'package:reactive_forms/reactive_forms.dart';
 import 'package:yaru/yaru.dart';
 
 class EstimatorFormView extends BaseView<EstimatorFormViewModel> {
-  EstimatorFormView() : super(stateMixins: StateMixins.withTicketProvider);
+  EstimatorFormView() : super(stateMixin: StateMixin.singleTicketProvider);
   late TabController tabController;
 
   @override
-  void initState(state, viewModel) {
-    tabController = TabController(length: 2, vsync: state);
+  void initState(_, viewModel) {
+    tabController = TabController(length: 2, vsync: _!);
   }
 
   @override
@@ -102,9 +102,12 @@ class EstimatorFormView extends BaseView<EstimatorFormViewModel> {
                                 (e) {
                                   String? fieldLabel;
                                   List<TextInputFormatter> inputFormatters = [
-                                    FilteringTextInputFormatter.deny(RegExp(r'[a-zA-Z\W]'), replacementString: ''),
+                                    // FilteringTextInputFormatter.deny(RegExp(r'[a-zA-Z\W]'), replacementString: ''),
                                   ];
                                   switch (e) {
+                                    case "name":
+                                      fieldLabel = "Numer projektu";
+                                      break;
                                     case "length":
                                       fieldLabel = "Długość kartonika";
                                       break;
@@ -123,6 +126,9 @@ class EstimatorFormView extends BaseView<EstimatorFormViewModel> {
                                       break;
                                     case "foldLayers":
                                       fieldLabel = "Ilość warstw surowca (zagięć)";
+                                      break;
+                                    case "maxOuterBoxWeight":
+                                      fieldLabel = "Max. waga kartonu";
                                       break;
                                     case "maxPaletteHeight":
                                       fieldLabel = "Max. wysokość palety";
@@ -207,6 +213,23 @@ class EstimatorFormView extends BaseView<EstimatorFormViewModel> {
                                                   Navigator.maybePop(context);
                                                 }
                                               : null,
+                                        );
+                                        return StreamBuilder(
+                                          stream: form.touchChanges,
+                                          builder: (context, stream) {
+                                            print(stream);
+                                            print(form.valid);
+                                            print(form.errors);
+                                            return OutlinedButton(
+                                              child: Text('Dodaj'),
+                                              onPressed: form.valid
+                                                  ? () {
+                                                      model.addOptionFromForm(form.value);
+                                                      Navigator.maybePop(context);
+                                                    }
+                                                  : null,
+                                            );
+                                          },
                                         );
                                       },
                                     ),
