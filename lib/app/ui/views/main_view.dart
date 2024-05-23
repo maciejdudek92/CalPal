@@ -86,68 +86,73 @@ class MainPage extends BaseView<EstimatorViewModel> {
                     height: 350,
                     child: SelectionArea(
                       selectionControls: EmptyTextSelectionControls(),
-                      child: ScrollableTableView(
-                        headers: [
-                          "Numer projektu",
-                          "Sztuk/karton",
-                          "Sztuk/warstwa",
-                          "Sztuk/paleta",
-                          "Waga poj. kartonika",
-                          "Wysokość palety",
-                          "Waga palety",
-                        ].map((label) {
-                          return TableViewHeader(
-                            width: 110,
-                            label: label,
-                            textStyle: const TextStyle(fontSize: 10),
-                          );
-                        }).toList(),
-                        rows: model.gluedOptions.map((EstimationOption option) {
-                          return TableViewRow(height: 40, cells: [
-                            TableViewCell(
-                              child: Text(
-                                option.name,
-                                style: const TextStyle(fontSize: 10),
-                              ),
-                            ),
-                            TableViewCell(
-                              child: Text(
-                                option.boxesPerOuter.toString(),
-                                style: const TextStyle(fontSize: 10),
-                              ),
-                            ),
-                            TableViewCell(
-                              child: Text(
-                                option.boxesPerLayer.toString(),
-                                style: const TextStyle(fontSize: 10),
-                              ),
-                            ),
-                            TableViewCell(
-                              child: Text(
-                                option.boxesPerPalette.toString(),
-                                style: const TextStyle(fontSize: 10),
-                              ),
-                            ),
-                            TableViewCell(
-                              child: Text(
-                                option.cardboardBoxWeight.toString(),
-                                style: const TextStyle(fontSize: 10),
-                              ),
-                            ),
-                            TableViewCell(
-                              child: Text(
-                                option.paletteHeight.toString(),
-                                style: const TextStyle(fontSize: 10),
-                              ),
-                            ),
-                            TableViewCell(
-                              child: Text(
-                                option.paletteWeight.toString(),
-                                style: const TextStyle(fontSize: 10),
-                              ),
-                            ),
-                          ]);
-                        }).toList(),
+                      child: Center(
+                        child: Padding(
+                          padding: const EdgeInsets.all(5.0),
+                          child: ScrollableTableView(
+                            headers: [
+                              "Numer projektu",
+                              "Sztuk/karton",
+                              "Sztuk/warstwa",
+                              "Sztuk/paleta",
+                              "Waga poj. kartonika",
+                              "Wysokość palety",
+                              "Waga palety",
+                            ].map((label) {
+                              return TableViewHeader(
+                                width: 78,
+                                label: label,
+                                textStyle: const TextStyle(fontSize: 10),
+                              );
+                            }).toList(),
+                            rows: model.gluedOptions.map((EstimationOption option) {
+                              return TableViewRow(height: 40, cells: [
+                                TableViewCell(
+                                  child: Text(
+                                    option.name,
+                                    style: const TextStyle(fontSize: 10),
+                                  ),
+                                ),
+                                TableViewCell(
+                                  child: Text(
+                                    option.boxesPerOuter.toString(),
+                                    style: const TextStyle(fontSize: 10),
+                                  ),
+                                ),
+                                TableViewCell(
+                                  child: Text(
+                                    option.boxesPerLayer.toString(),
+                                    style: const TextStyle(fontSize: 10),
+                                  ),
+                                ),
+                                TableViewCell(
+                                  child: Text(
+                                    option.boxesPerPalette.toString(),
+                                    style: const TextStyle(fontSize: 10),
+                                  ),
+                                ),
+                                TableViewCell(
+                                  child: Text(
+                                    option.cardboardBoxWeight.toString(),
+                                    style: const TextStyle(fontSize: 10),
+                                  ),
+                                ),
+                                TableViewCell(
+                                  child: Text(
+                                    "${option.paletteHeight.toString()}m",
+                                    style: const TextStyle(fontSize: 10),
+                                  ),
+                                ),
+                                TableViewCell(
+                                  child: Text(
+                                    "${option.paletteWeight.toString()}kg",
+                                    style: const TextStyle(fontSize: 10),
+                                  ),
+                                ),
+                              ]);
+                            }).toList(),
+                          ),
+                        ),
                       ),
                     ),
                   ),

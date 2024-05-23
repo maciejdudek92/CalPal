@@ -62,7 +62,7 @@ class EstimatorFormViewModel extends ViewModel {
       foldLayers: formData["foldLayers"] as int,
     );
 
-    int maxOuterBoxWeight = formData["maxOuterBoxWeight"] as int;
+    int maxOuterBoxWeight = (formData["maxOuterBoxWeight"] as int) * 1000;
 
     Decimal availablePaletteHeight = (Decimal.parse(formData["maxPaletteHeight"].toString()) - Decimal.parse("0.25")) * Decimal.fromInt(1000);
 
@@ -98,10 +98,10 @@ class EstimatorFormViewModel extends ViewModel {
     int boxesPerLayer = _getBoxesPerLayer(outerBox: outerBox);
 
     final outerBoxes = List.generate(boxesPerLayer * layers, (index) => outerBox);
-    print("options legnth");
-    print(outerBoxes.length); // = 0
-    print(boxesPerLayer); //to jest
-    print(layers); // =0
+    // print("options legnth");
+    // print(outerBoxes.length); // = 0
+    // print(boxesPerLayer); //to jest
+    // print(layers); // =0
 
     EstimationOption option = EstimationOption(
       name: formData["name"] as String,
@@ -110,10 +110,6 @@ class EstimatorFormViewModel extends ViewModel {
       outerBoxes: outerBoxes,
       flatCardboardBoxes: null,
     );
-
-    print(option.outerBoxes!.first.length);
-    print(option.outerBoxes!.first.width);
-    print(option.outerBoxes!.first.height);
 
     if (_boxType == CardboardBoxType.glued) {
       estimator_view_model.addGluedOption(option);
@@ -147,9 +143,24 @@ class EstimatorFormViewModel extends ViewModel {
         int cardboardBoxesCount = ((option.length / boxThickness).round() * rows) * columns;
         final cardboardBoxes = List.generate(cardboardBoxesCount, (index) => cardboardBox);
         OuterBox _outerBox = OuterBox(width: option.width, length: option.length, height: boxHeight, cardboardBoxes: cardboardBoxes);
-        if (_outerBox.weight <= maxWeight) {
+        if (_outerBox.weight <= maxWeight - 500) {
           outerBoxes.add(_outerBox);
         }
+        //  else {
+        //   int _rows = rows > 1 ? rows - 1 : rows;
+        //   int _columns = columns > 1 ? columns - 1 : columns;
+        //   List<OuterBox> outerBoxesOptions = _getOuterBoxOptions(
+        //     maxWeight: maxWeight,
+        //     requiredWidth: requiredWidth,
+        //     requiredHeight: requiredHeight,
+        //     boxGrammage: boxGrammage,
+        //     boxThickness: boxThickness,
+        //     cardboardBox: cardboardBox,
+        //     rows: _rows,
+        //     columns: _columns,
+        //   );
+        //   if (outerBoxesOptions.isNotEmpty) return outerBoxesOptions;
+        // }
       }
     }
 
@@ -168,7 +179,25 @@ class EstimatorFormViewModel extends ViewModel {
         height: 0,
         cardboardBoxes: cardboardBoxes,
       );
-      outerBoxes.add(_outerBox);
+      if (_outerBox.weight <= maxWeight - 500) {
+        outerBoxes.add(_outerBox);
+      }
+      // else {
+      //   int _rows = rows > 1 ? rows - 1 : rows;
+      //   int _columns = columns > 1 ? columns - 1 : columns;
+      //   List<OuterBox> outerBoxesOptions = _getOuterBoxOptions(
+      //     maxWeight: maxWeight,
+      //     requiredWidth: requiredWidth,
+      //     requiredHeight: requiredHeight,
+      //     boxGrammage: boxGrammage,
+      //     boxThickness: boxThickness,
+      //     cardboardBox: cardboardBox,
+      //     rows: _rows,
+      //     columns: _columns,
+      //   );
+
+      //   if (outerBoxesOptions.isNotEmpty) return outerBoxesOptions;
+      // }
     } else {
       int boxWidth = (((requiredWidth + 4) ~/ 5) * 5) + 10;
       int boxLength = (1200 - (boxWidth - 10)) ~/ 2;

@@ -24,10 +24,11 @@ class OuterBox {
   int get cardboxesCount => cardboardBoxes.length;
 
   double get weight {
-    Decimal weight = Decimal.parse('0.5');
+    Decimal weight = Decimal.parse('500');
     cardboardBoxes.forEach((box) {
       weight += Decimal.parse(box.weight.toString());
     });
-    return weight.toDouble();
+
+    return (weight.toDouble() / 1000);
   }
 }

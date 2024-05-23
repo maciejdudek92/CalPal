@@ -10,36 +10,33 @@ class EstimationOption {
 
   EstimationOption({required this.name, required this.layers, required this.height, this.outerBoxes, this.flatCardboardBoxes});
 
-  get cardboardBoxWeight => () {
-        if (outerBoxes != null) {
-          return outerBoxes!.first.weight.toDouble();
-        } else if (flatCardboardBoxes != null) {
-          return flatCardboardBoxes!.first.weight.toDouble();
-        } else {
-          return 0.0;
-        }
-      };
-
-  int get boxesPerPalette {
-    return outerBoxes!.length;
+  double get cardboardBoxWeight {
+    if (outerBoxes != null) {
+      return outerBoxes!.first.weight.toDouble();
+    } else if (flatCardboardBoxes != null) {
+      return flatCardboardBoxes!.first.weight.toDouble();
+    } else {
+      return 0.0;
+    }
   }
 
   int get boxesPerOuter {
-    return outerBoxes!.length;
     return outerBoxes!.first.cardboardBoxes.length;
   }
 
   int get boxesPerLayer {
-    return layers;
-
     int outersPerLayer = outerBoxes!.length ~/ layers;
-    return outersPerLayer ~/ outerBoxes!.first.cardboardBoxes.length;
+    return boxesPerOuter * outersPerLayer;
+  }
+
+  int get boxesPerPalette {
+    return boxesPerLayer * layers;
   }
 
   double get paletteHeight {
     // return 0;
     int boxHeight = outerBoxes!.first.height;
-    double paletteHeight = (boxHeight * layers) + 25;
+    double paletteHeight = ((boxHeight * layers) + 250) / 1000;
     return paletteHeight;
   }
 
@@ -47,7 +44,7 @@ class EstimationOption {
     // return 0;
     double boxWeight = outerBoxes!.first.weight;
     double paletteWeight = (boxWeight * outerBoxes!.length);
-    return paletteWeight;
+    return paletteWeight.roundToDouble();
   }
 
   // factory EstimationOption.fromJson(Map<String, Object?> json) => {
