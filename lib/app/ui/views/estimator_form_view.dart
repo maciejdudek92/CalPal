@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
@@ -8,12 +9,12 @@ import 'package:reactive_forms/reactive_forms.dart';
 import 'package:yaru/yaru.dart';
 
 class EstimatorFormView extends BaseView<EstimatorFormViewModel> {
-  EstimatorFormView() : super(stateMixin: StateMixin.singleTicketProvider);
+  EstimatorFormView({super.key}) : super(stateMixin: StateMixin.singleTicketProvider);
   late TabController tabController;
 
   @override
   void initState(_, viewModel) {
-    tabController = TabController(length: 2, vsync: _!);
+    tabController = TabController(length: 3, vsync: _!);
   }
 
   @override
@@ -33,72 +34,60 @@ class EstimatorFormView extends BaseView<EstimatorFormViewModel> {
               type: YaruWindowControlType.close,
               onTap: () async {
                 Navigator.maybePop(context);
-                model.flatAndGluedForm.reset();
+                model.gluedForm.reset();
+                model.flatForm.reset();
                 model.clamshellForm.reset();
               },
             ),
           ),
         ],
         title: YaruTabBar(
-          tabController: tabController,
-          tabs: const [
-            YaruTab(
-              label: 'Klejone/Na płasko',
-            ),
-            YaruTab(
-              label: 'Clamshell',
-            ),
-          ],
-        ),
+            tabController: tabController,
+            tabs: const [
+              YaruTab(
+                label: 'Klejone',
+              ),
+              YaruTab(
+                label: 'Na płasko',
+              ),
+              YaruTab(
+                label: 'Clamshell',
+              ),
+            ],
+            onTap: (index) {
+              switch (index) {
+                case 1:
+                  model.setBoxType(CardboardBoxType.flat);
+                  break;
+                case 2:
+                  model.setBoxType(CardboardBoxType.clamshell);
+                  break;
+                default:
+                  model.setBoxType(CardboardBoxType.glued);
+                  break;
+              }
+            }),
         isClosable: false,
       ),
-      content: SizedBox(
-        width: 600,
-        height: 400,
-        child: TabBarView(
-          controller: tabController,
-          children: [
-            Column(
-              children: [
-                ReactiveForm(
-                  formGroup: model.flatAndGluedForm,
-                  child: SizedBox(
-                    height: 400,
+      content: ReactiveForm(
+        formGroup: model.gluedForm,
+        child: SizedBox(
+          width: 600,
+          height: 600,
+          child: TabBarView(
+            controller: tabController,
+            children: [
+              Column(
+                children: [
+                  SizedBox(
+                    height: 450,
                     child: CustomScrollView(
                       slivers: [
                         SliverFillRemaining(
                           hasScrollBody: false,
                           child: Column(
                             children: [
-                              Padding(
-                                padding: const EdgeInsets.all(5.0),
-                                child: ReactiveDropdownField(
-                                  decoration: InputDecoration(
-                                    labelText: "Rodzaj",
-                                  ),
-                                  formControlName: "boxType",
-                                  items: [
-                                    DropdownMenuItem(
-                                      child: Text(
-                                        "Klejony",
-                                        style: TextStyle(fontSize: 15),
-                                      ),
-                                      value: CardboardBoxType.glued,
-                                    ),
-                                    DropdownMenuItem(
-                                      child: Text(
-                                        "Na płasko",
-                                        style: TextStyle(fontSize: 15),
-                                      ),
-                                      value: CardboardBoxType.flat,
-                                    )
-                                  ],
-                                  onChanged: (control) {
-                                    model.setBoxType();
-                                  },
-                                ),
-                              ),
-                              ...model.flatAndGluedForm.rawValue.keys.map(
+                              ...model.gluedForm.rawValue.keys.map(
                                 (e) {
                                   String? fieldLabel;
                                   List<TextInputFormatter> inputFormatters = [
@@ -135,7 +124,7 @@ class EstimatorFormView extends BaseView<EstimatorFormViewModel> {
                                       inputFormatters.add(FilteringTextInputFormatter.deny(',', replacementString: '.'));
                                       break;
                                     default:
-                                      return SizedBox.shrink();
+                                      return const SizedBox.shrink();
                                   }
                                   return Padding(
                                     padding: const EdgeInsets.all(5.0),
@@ -200,38 +189,7 @@ class EstimatorFormView extends BaseView<EstimatorFormViewModel> {
                                                 },
                                               );
                                             },
-                                      icon: Icon(YaruIcons.information),
-                                    ),
-                                    Spacer(),
-                                    ReactiveFormConsumer(
-                                      builder: (context, form, child) {
-                                        return OutlinedButton(
-                                          child: Text('Dodaj'),
-                                          onPressed: form.valid
-                                              ? () {
-                                                  model.addOptionFromForm(form.value);
-                                                  Navigator.maybePop(context);
-                                                }
-                                              : null,
-                                        );
-                                        return StreamBuilder(
-                                          stream: form.touchChanges,
-                                          builder: (context, stream) {
-                                            print(stream);
-                                            print(form.valid);
-                                            print(form.errors);
-                                            return OutlinedButton(
-                                              child: Text('Dodaj'),
-                                              onPressed: form.valid
-                                                  ? () {
-                                                      model.addOptionFromForm(form.value);
-                                                      Navigator.maybePop(context);
-                                                    }
-                                                  : null,
-                                            );
-                                          },
-                                        );
-                                      },
+                                      icon: const Icon(YaruIcons.information),
                                     ),
                                   ],
                                 ),
@@ -242,42 +200,33 @@ class EstimatorFormView extends BaseView<EstimatorFormViewModel> {
                       ],
                     ),
                   ),
-                ),
-              ],
-            ),
-            Column(
-              children: [
-                SizedBox(
-                  // height: 100,
-                  child: ReactiveForm(
-                    formGroup: model.flatAndGluedForm,
-                    child: Column(
-                      children: <Widget>[
-                        ReactiveTextField(
-                          formControlName: 'length',
-                        ),
-                        ReactiveTextField(
-                          formControlName: 'width',
-                        ),
-                        ReactiveTextField(
-                          formControlName: 'surfaceArea',
-                        ),
-                        ReactiveTextField(
-                          formControlName: 'grammage',
-                        ),
-                        ReactiveTextField(
-                          formControlName: 'caliper',
-                        ),
-                        ReactiveTextField(
-                          formControlName: 'maxPaletteHeight',
-                        ),
-                      ],
+                  Spacer(),
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: ReactiveFormConsumer(
+                      builder: (context, form, child) {
+                        return OutlinedButton(
+                          onPressed: form.valid
+                              ? () {
+                                  model.addOptionFromForm(form.value);
+                                  Navigator.maybePop(context);
+                                }
+                              : null,
+                          child: const Text('Dodaj'),
+                        );
+                      },
                     ),
                   ),
-                ),
-              ],
-            ),
-          ],
+                ],
+              ),
+              Column(
+                children: [],
+              ),
+              Column(
+                children: [],
+              ),
+            ],
+          ),
         ),
       ),
     );

@@ -7,8 +7,9 @@ class EstimationOption {
   double height;
   List<OuterBox>? outerBoxes;
   List<CardboardBox>? flatCardboardBoxes;
+  bool isSelected;
 
-  EstimationOption({required this.name, required this.layers, required this.height, this.outerBoxes, this.flatCardboardBoxes});
+  EstimationOption({required this.name, required this.layers, required this.height, this.outerBoxes, this.flatCardboardBoxes, this.isSelected = false});
 
   double get cardboardBoxWeight {
     if (outerBoxes != null) {

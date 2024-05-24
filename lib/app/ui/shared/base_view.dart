@@ -1,7 +1,11 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:palcal/app/core/view_models/view_model.dart';
 import 'package:palcal/app/locator.dart';
 import 'package:provider/provider.dart';
+
+//https://marajhussain.medium.com/flutter-mvvm-architecture-best-practice-using-provide-http-4939bdaae171
+//https://medium.com/@buttonsrtoys/mvvm-with-flutter-e162a59984cf
 
 enum StateMixin {
   singleTicketProvider,
@@ -11,14 +15,14 @@ enum StateMixin {
 abstract class BaseView<T extends ViewModel> extends StatefulWidget {
   void initState(TickerProvider? _, T viewModel);
   void dispose();
-  Widget build(BuildContext context, T model, Widget? child);
+  Widget build(BuildContext context, T viewModel, Widget? _);
   final StateMixin? stateMixin;
   const BaseView({Key? key, this.stateMixin}) : super(key: key);
 
+  @nonVirtual
   @override
   // ignore: no_logic_in_create_state
   State<BaseView> createState() {
-    print(stateMixin);
     switch (stateMixin) {
       case StateMixin.singleTicketProvider:
         return _ViewSingleTickerProviderState<T>();
@@ -41,9 +45,9 @@ abstract class _BaseViewState<T extends ViewModel> extends State<BaseView> {
 
   @override
   Widget build(BuildContext context) {
-    // widget._viewModelInstance.value = model;
-    return ChangeNotifierProvider<T>(
-      create: (context) => model,
+    debugPrint("[View]::${widget.runtimeType} -> build method");
+    return ChangeNotifierProvider<T>.value(
+      value: model,
       child: Consumer<T>(
         builder: widget.build,
       ),

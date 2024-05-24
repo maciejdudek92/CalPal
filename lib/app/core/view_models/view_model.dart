@@ -8,4 +8,5 @@ abstract class ViewModel extends ChangeNotifier {
     _busy = value;
     notifyListeners();
   }
+
 }

@@ -22,7 +22,7 @@ class PalCal extends StatelessWidget {
             border: Border.all(color: Colors.grey.shade700),
           ),
           height: 650,
-          child: const MainPage(),
+          child: MainPage(),
         ),
 
         scrollBehavior: const MaterialScrollBehavior().copyWith(

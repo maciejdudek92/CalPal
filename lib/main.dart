@@ -20,7 +20,7 @@ void main() async {
     alwaysOnTop: false,
   );
 
-  runApp(const PalCal());
+  runApp(PalCal());
 
   windowManager.waitUntilReadyToShow(windowOptions, () async {
     await windowManager.setResizable(false);

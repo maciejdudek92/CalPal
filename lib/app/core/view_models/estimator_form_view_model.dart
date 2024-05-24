@@ -9,13 +9,19 @@ import 'package:palcal/app/locator.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 
 class EstimatorFormViewModel extends ViewModel {
-  CardboardBoxType? _boxType = CardboardBoxType.glued;
+  CardboardBoxType _boxType = CardboardBoxType.glued;
   CardboardBoxType? get boxType => _boxType;
-  setBoxType() {
+
+
+  setBoxType(CardboardBoxType boxType) {
     setBusy(true);
-    _boxType = flatAndGluedForm.value["boxType"] as CardboardBoxType;
+    _boxType = boxType;
     setBusy(false);
   }
+
+  final boxTypeForm = FormGroup({
+    'boxType': FormControl<CardboardBoxType>(value: CardboardBoxType.glued, validators: [Validators.required]),
+  });
 
   final List<OuterBox> outerBoxOptions = [
     OuterBox(length: 385, width: 385, height: 0),
@@ -24,9 +30,8 @@ class EstimatorFormViewModel extends ViewModel {
     OuterBox(length: 385, width: 225, height: 0),
   ];
 
-  final flatAndGluedForm = FormGroup({
+  final gluedForm = FormGroup({
     'name': FormControl<String>(value: "12345", validators: [Validators.required]),
-    'boxType': FormControl<CardboardBoxType>(value: CardboardBoxType.glued, validators: [Validators.required]),
     'length': FormControl<int>(value: 300, validators: [Validators.required]),
     'width': FormControl<int>(value: 104, validators: [Validators.required]),
     'surfaceArea': FormControl<double>(value: 446.22, validators: [Validators.required]),
@@ -35,6 +40,20 @@ class EstimatorFormViewModel extends ViewModel {
     'foldLayers': FormControl<int>(value: 3, validators: [Validators.required]),
     'maxPaletteHeight': FormControl<double>(value: 1.65, validators: [Validators.required]),
     'maxOuterBoxWeight': FormControl<int>(value: 12, validators: [Validators.required]),
+    'maxOuterBoxHeight': FormControl<int>(value: 400, validators: [Validators.required]),
+  });
+
+  final flatForm = FormGroup({
+    'name': FormControl<String>(value: "12345", validators: [Validators.required]),
+    'length': FormControl<int>(value: 300, validators: [Validators.required]),
+    'width': FormControl<int>(value: 104, validators: [Validators.required]),
+    'surfaceArea': FormControl<double>(value: 446.22, validators: [Validators.required]),
+    'grammage': FormControl<int>(value: 205, validators: [Validators.required]),
+    'caliper': FormControl<double>(value: 0.35, validators: [Validators.required]),
+    'foldLayers': FormControl<int>(value: 3, validators: [Validators.required]),
+    'maxPaletteHeight': FormControl<double>(value: 1.65, validators: [Validators.required]),
+    'maxOuterBoxWeight': FormControl<int>(value: 12, validators: [Validators.required]),
+    'maxOuterBoxHeight': FormControl<int>(value: 400, validators: [Validators.required]),
   });
 
   final clamshellForm = FormGroup({
@@ -53,7 +72,7 @@ class EstimatorFormViewModel extends ViewModel {
     EstimatorViewModel estimator_view_model = locator.get<EstimatorViewModel>();
 
     CardboardBox cardboardBox = CardboardBox(
-      type: _boxType!,
+      type: _boxType,
       length: formData["length"] as int,
       width: formData["width"] as int,
       surfaceArea: formData["surfaceArea"] as double,
@@ -62,7 +81,7 @@ class EstimatorFormViewModel extends ViewModel {
       foldLayers: formData["foldLayers"] as int,
     );
 
-    int maxOuterBoxWeight = (formData["maxOuterBoxWeight"] as int) * 1000;
+    double maxOuterBoxWeight = ((formData["maxOuterBoxWeight"] as int) - 0.5) * 1000;
 
     Decimal availablePaletteHeight = (Decimal.parse(formData["maxPaletteHeight"].toString()) - Decimal.parse("0.25")) * Decimal.fromInt(1000);
 
@@ -123,7 +142,7 @@ class EstimatorFormViewModel extends ViewModel {
   }
 
   List<OuterBox> _getOuterBoxOptions({
-    required int maxWeight,
+    required double maxWeight,
     required int requiredWidth,
     required int requiredHeight,
     required Decimal boxGrammage,
