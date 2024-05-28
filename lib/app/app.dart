@@ -1,7 +1,7 @@
 import 'dart:ui';
 
-import 'package:flutter/material.dart';
-import 'package:palcal/app/ui/views/main_view.dart';
+import 'package:flutter/material.dart' hide View;
+import 'package:palcal/app/ui/views/main/main_view.dart';
 import 'package:yaru/yaru.dart';
 
 class PalCal extends StatelessWidget {
@@ -22,9 +22,8 @@ class PalCal extends StatelessWidget {
             border: Border.all(color: Colors.grey.shade700),
           ),
           height: 650,
-          child: MainPage(),
+          child: MainView(),
         ),
-
         scrollBehavior: const MaterialScrollBehavior().copyWith(
           dragDevices: {
             PointerDeviceKind.mouse,

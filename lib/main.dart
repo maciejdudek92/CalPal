@@ -1,12 +1,11 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide View;
 import 'package:palcal/app/app.dart';
 import 'package:palcal/app/locator.dart';
 import 'package:window_manager/window_manager.dart';
 import 'package:yaru/yaru.dart';
 
 void main() async {
-  setupLocator();
-
+  configureDependencies();
   await YaruWindow.ensureInitialized();
   await YaruWindowTitleBar.ensureInitialized();
   WidgetsFlutterBinding.ensureInitialized();
@@ -20,7 +19,7 @@ void main() async {
     alwaysOnTop: false,
   );
 
-  runApp(PalCal());
+  runApp(const PalCal());
 
   windowManager.waitUntilReadyToShow(windowOptions, () async {
     await windowManager.setResizable(false);

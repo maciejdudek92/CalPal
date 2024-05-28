@@ -47,10 +47,13 @@ dependencies:
   boxy: ^2.2.0
   flutter_expandable_table: ^2.0.1
   data_table_2: ^2.5.12
+  injectable: ^2.4.2
+  build_runner: ^2.4.9
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  injectable_generator:
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is

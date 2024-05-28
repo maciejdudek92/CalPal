@@ -1,17 +1,18 @@
 import 'package:decimal/decimal.dart';
+import 'package:injectable/injectable.dart';
 import 'package:palcal/app/core/enums/cardbox_type.dart';
 import 'package:palcal/app/core/models/cardboard_box_model.dart';
 import 'package:palcal/app/core/models/estimation_option_model.dart';
 import 'package:palcal/app/core/models/outer_box_model.dart';
-import 'package:palcal/app/core/view_models/estimator_view_model.dart';
-import 'package:palcal/app/core/view_models/view_model.dart';
+import 'package:palcal/app/ui/views/main/estimator_view_model.dart';
+import 'package:palcal/app/ui/views/shared/view_model.dart';
 import 'package:palcal/app/locator.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 
+@injectable
 class EstimatorFormViewModel extends ViewModel {
   CardboardBoxType _boxType = CardboardBoxType.glued;
   CardboardBoxType? get boxType => _boxType;
-
 
   setBoxType(CardboardBoxType boxType) {
     setBusy(true);

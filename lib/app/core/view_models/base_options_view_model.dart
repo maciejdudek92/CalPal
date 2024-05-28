@@ -1,6 +1,7 @@
 import 'package:palcal/app/core/enums/cardbox_type.dart';
 import 'package:palcal/app/core/models/estimation_option_model.dart';
-import 'package:palcal/app/core/view_models/view_model.dart';
+import 'package:palcal/app/ui/views/shared/view_model.dart';
+
 
 class BaseOptionsViewModel extends ViewModel {
   List<EstimationOption> _options = [];

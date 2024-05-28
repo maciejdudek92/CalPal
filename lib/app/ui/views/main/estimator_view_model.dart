@@ -1,9 +1,12 @@
+import 'package:injectable/injectable.dart';
 import 'package:palcal/app/core/models/outer_box_model.dart';
 import 'package:palcal/app/core/models/estimation_option_model.dart';
 import 'package:palcal/app/core/view_models/glued_options_view_model.dart';
-import 'package:palcal/app/core/view_models/view_model.dart';
+import 'package:palcal/app/ui/views/shared/view_model.dart';
 import 'package:palcal/app/locator.dart';
 
+
+@Injectable(order: -1)
 class EstimatorViewModel extends ViewModel {
   // final List<EstimationOption> _gluedOptions = [];
   // List<EstimationOption> get gluedOptions => _gluedOptions;

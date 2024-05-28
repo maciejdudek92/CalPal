@@ -1,5 +1,5 @@
 import 'package:data_table_2/data_table_2.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide View;
 import 'package:palcal/app/core/models/estimation_option_model.dart';
 import 'package:yaru/yaru.dart';
 
