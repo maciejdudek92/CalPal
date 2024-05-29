@@ -1,1 +1,3 @@
-# PalCal - Cardboard Palletization Estimator
+# calpal
+
+A new Flutter project.

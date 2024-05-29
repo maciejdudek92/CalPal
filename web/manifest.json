@@ -1,6 +1,6 @@
 {
-    "name": "palcal",
-    "short_name": "palcal",
+    "name": "calpal",
+    "short_name": "calpal",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
